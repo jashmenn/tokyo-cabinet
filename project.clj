@@ -1,4 +1,4 @@
-(defproject org.clojars.jashmenn/tokyo-cabinet "0.1.1"
+(defproject org.clojars.nmurray/tokyo-cabinet "0.1.1"
   :description "tokyo cabinet client in clojure"
   :dependencies [ [org.clojure/clojure "1.2.0"]
                   [org.clojure/clojure-contrib "1.2.0"] 

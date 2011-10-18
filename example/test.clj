@@ -12,6 +12,10 @@
   (with-cabinet { :filename "test.tokyo" :mode OREADER }
     (println (primary-keys)))
 
+ (time 
+  (with-cabinet { :filename "test.tokyo" :mode (+ OWRITER OCREAT) } 
+    (time (doseq [[name val] (repeatedly 3000000 (fn [] [(str (rand-int 1000000000)) (str (rand-int 1000000000))]))]
+       (put-value-async name val)))))
 
   ;; tables
 
