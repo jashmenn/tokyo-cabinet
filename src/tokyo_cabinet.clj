@@ -70,14 +70,19 @@
   [key]
   (.get (*tokyo* :connection) (str key)))
 
-(defn put-value 
-  "Puts a value into the cabinet. With tables, you can use nil for the
-  key to use an arbitrary unique key."  
-  [key val]
+(defn put-value* [how key val]
   (when (nil? key)
     (check-type :table))
-  (let [putkey (if (nil? key) (genuid) key)]
-    (.put (*tokyo* :connection) (str putkey) val)))
+  (let [putkey (str (if (nil? key) (genuid) key))]
+    (how putkey val)))
+
+(defn put-value [key val]
+  (put-value* (fn [k v] (.put (*tokyo* :connection) k v)) key val))
+
+(defn put-value-async [key val]
+  (put-value* (fn [k v] (.putasync (*tokyo* :connection) k v)) key val))
+
+(defn synchronize [] (.sync (*tokyo* :connection)))
 
 (defn putdup-value [key val]
   (when (nil? key)
