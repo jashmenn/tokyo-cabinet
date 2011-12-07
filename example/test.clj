@@ -28,3 +28,13 @@
 
   (with-cabinet params
     (println (get-value "a/p"))))
+
+(comment
+
+ (time 
+  (with-cabinet { :filename "test.tokyo" :mode (+ OWRITER OCREAT) :type :bplus :bnum 4000000 :lmemb 512 :nmemb 512} 
+    (time (doseq [[name val] (repeatedly 1000000 (fn [] [(str (rand-int 1000000000)) (str (rand-int 1000000000))]))]
+            (put-value name val)))))
+
+ )
+

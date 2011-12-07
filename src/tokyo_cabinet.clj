@@ -37,8 +37,12 @@
         cls-name (str "tokyocabinet." (cls-list tokyo-type))
         db (.newInstance (. Class forName cls-name))]
     (.open db fn tokyo-mode)
-    { :connection db :type tokyo-type :mode tokyo-mode }
-))
+    (condp = tokyo-type
+        :hash  (.optimize db (options :bnum  -1) (options :apow -1) (options :fpow -1) (options :optimize-opts 0))
+        :table (.optimize db (options :bnum  -1) (options :apow -1) (options :fpow -1) (options :optimize-opts 0))
+        :fixed (.optimize db (options :width -1) (options :limsize -1))
+        :bplus (.optimize db (options :lmemb -1) (options :nmemb -1) (options :bnum -1) (options :apow -1) (options :fpow -1) (options :optimize-opts 0)))
+    { :connection db :type tokyo-type :mode tokyo-mode }))
 
 (defn close-cabinet
   "Closes a Tokyo cabinet."
